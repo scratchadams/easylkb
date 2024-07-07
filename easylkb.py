@@ -153,6 +153,12 @@ class Kbuilder:
         KConfigFile = open(self.KConfig, "r")
         ConfigFile = open(f"{self.KPath}.config", "a+") # This is the config file to write
         ConfigFile.write(KConfigFile.read())
+        
+        #Check if version is 5.12 or greater and if so add generic DWARF option (fixes issue #4)
+        if float(self.KVersion) >= 5.12:
+            dwarf_config = "CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y"
+            ConfigFile.write(dwarf_config)
+
         ConfigFile.close()
         KConfigFile.close()
 
